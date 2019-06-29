@@ -46,7 +46,6 @@ resource "aws_vpc" "hashicorp_vpc" {
 
   tags {
     Name        = "${var.name}-vpc"
-    Environment = "${var.environment_tag}"
     TTL         = "${var.ttl}"
     Owner       = "${var.owner}"
   }
@@ -68,7 +67,6 @@ resource "aws_route_table" "rtb" {
 
   tags {
     Name        = "${var.name}-igw"
-    Environment = "${var.environment_tag}"
   }
 }
 
@@ -84,7 +82,6 @@ resource "aws_route_table" "rtb-nat" {
 
   tags {
     Name        = "${var.name}-nat_instance"
-    Environment = "${var.environment_tag}"
   }
 }
 
@@ -120,7 +117,6 @@ resource "aws_subnet" "dmz_subnet" {
 
   tags {
     Name        = "dmz-subnet"
-    Environment = "${var.environment_tag}"
   }
 }
 
@@ -133,7 +129,6 @@ resource "aws_subnet" "pub_web_subnet" {
 
   tags {
     Name        = "web-pub-subnet"
-    Environment = "${var.environment_tag}"
   }
 }
 
@@ -145,12 +140,10 @@ resource "aws_subnet" "web_subnet" {
   vpc_id                  = "${aws_vpc.hashicorp_vpc.id}"
   map_public_ip_on_launch = "false"
 
-  #availability_zone       = "${data.aws_availability_zones.available.names[count.index % local.mod_az]}"
-  availability_zone = "${data.aws_availability_zones.available.names[count.index % local.mod_az]}"
+  availability_zone       = "${data.aws_availability_zones.available.names[count.index % local.mod_az]}"
 
   tags {
     Name        = "web-prv-subnet"
-    Environment = "${var.environment_tag}"
   }
 }
 
@@ -165,7 +158,6 @@ resource "aws_instance" "nat" {
 
   tags {
     Name        = "nat-instance"
-    Environment = "${var.environment_tag}"
     TTL         = "${var.ttl}"
     Owner       = "${var.owner}"
   }
@@ -177,7 +169,6 @@ resource "aws_elb" "web-elb" {
 
   tags {
     Name        = "web-elb"
-    Environment = "${var.environment_tag}"
     TTL         = "${var.ttl}"
     Owner       = "${var.owner}"
   }
@@ -224,8 +215,7 @@ resource "aws_instance" "jumphost" {
               EOF
 
   tags {
-    Name        = "jumphost-${var.environment_tag}"
-    Environment = "${var.environment_tag}"
+    Name        = "jumphost-${var.name}"
     TTL         = "${var.ttl}"
     Owner       = "${var.owner}"             
   }
@@ -259,7 +249,6 @@ resource "aws_instance" "web_nodes" {
 
   tags {
     Name        = "${format("web-%02d", count.index + 1)}"
-    Environment = "${var.environment_tag}"
     TTL         = "${var.ttl}"
     Owner       = "${var.owner}"
   }

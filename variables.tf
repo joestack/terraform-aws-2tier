@@ -10,10 +10,6 @@ variable "ttl" {
   description = "Time to live before destroyed"
 }
 
-variable "environment_tag" {
-  description = "Tag of this deployment i.e QA, TEST, PROD"
-}
-
 variable "key_name" {
   description = "private ssh id_rsa key to be used to access the nodes from the bastion host"
 }
