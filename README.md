@@ -5,7 +5,7 @@ Web servers are configured by a dynamically created ansible inventory file.
 The access to the web nodes is realized via jumphost.
 The jumphost executes the ansible-playbook which installs nginx and a simple index.html.
 
-The Jumphost DNS name is jumphost-\<environment-tag\>.\<dns-name\>
+The Jumphost DNS name is jumphost-\<name\>.\<dns-name\>
   
 ssh ubuntu@jumphost-2-tier-web.joestack.xyz
   
